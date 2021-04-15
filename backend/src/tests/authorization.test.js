@@ -16,3 +16,18 @@ it('register users', (done) => {
       done();
     });
 });
+
+it('fails when registering existing user', (done) => {
+  request
+    .post('/graphql')
+    .send({
+      query:
+        'mutation { register (email: "test1@gmail.com", password: "1234") }',
+    })
+    .expect(200)
+    .end((err, res) => {
+      if (err) return done(err);
+      expect(res.body.errors[0].message).to.equal('User already exists!');
+      done();
+    });
+});
