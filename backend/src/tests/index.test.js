@@ -1,10 +1,10 @@
-import mongoose, { mongo } from 'mongoose';
+import mongoose from 'mongoose';
 import { startServer, dropCollections } from './__utils';
 
 describe('Where to go API', () => {
   var server;
   before((done) => {
-    startServer().then(() => {
+    startServer().then((res) => {
       server = res;
       done();
     });

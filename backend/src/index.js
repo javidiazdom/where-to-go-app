@@ -1,11 +1,37 @@
-var express = require('express');
-var app = express();
-const port = 4040;
+import express from 'express';
+import { ApolloServer } from 'apollo-server-express';
+import { typeDefs } from './typeDefs';
+import { resolvers } from './resolvers';
+import mongoose from 'mongoose';
+import * as config from './.config.json';
 
-app.get('/', (req, res) => {
-  res.send('Hello world!');
-});
+const startServer = async () => {
+  const app = express();
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: ({ req }) => {
+      const auth = req.headers.authorization || '';
+      return { auth };
+    },
+  });
 
-app.listen(4040, () => {
-  console.log(`Server listening on port ${4040}`);
-});
+  app.get('/', (req, res) => {
+    res.redirect(301, '/graphql');
+  });
+
+  server.applyMiddleware({ app });
+
+  await mongoose.connect(config.MONGOURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+
+  await app.listen({ port: config.PORT }, () => {
+    console.log(
+      `🚀 Server ready at http://localhost:4040${server.graphqlPath}`
+    );
+  });
+};
+
+startServer();

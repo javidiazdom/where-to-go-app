@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import express from 'express';
-import ApolloServer from 'apollo-server-express';
+import { ApolloServer } from 'apollo-server-express';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import { typeDefs } from '../typeDefs';

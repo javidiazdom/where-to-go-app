@@ -38,7 +38,6 @@ export const typeDefs = gql`
 
   type Query {
     hello: String
-    locations: [Location]
   }
 
   input LatLngInput {
@@ -57,12 +56,6 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    createLocation(
-      name: String!
-      coordinates: LatLngInput
-      predictedAssistance: Int
-    ): Location!
-    noteForAssistance(locationCoordinates: LatLngInput!): Boolean!
     register(email: String!, password: String!): Boolean
     login(email: String!, password: String!): LoginOutput
   }
