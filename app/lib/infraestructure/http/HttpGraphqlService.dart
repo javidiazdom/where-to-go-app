@@ -14,7 +14,8 @@ class HttpGraphqlService {
   }
 
   static Future<http.Response> query(String query, [String variables]) async {
-    var bodyEncoded = json.encode({'query': query, 'variables': variables});
+    var bodyEncoded =
+        json.encode({'query': query, 'variables': variables ?? ""});
     return await http.post(uri, headers: headers, body: bodyEncoded);
   }
 }

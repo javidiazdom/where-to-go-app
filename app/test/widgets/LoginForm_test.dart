@@ -17,4 +17,9 @@ void main() {
     await tester.pumpWidget(createFormWithContext());
     expect(find.byType(ElevatedButton), findsOneWidget);
   });
+  testWidgets('Login form displays the forgot password text',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(createFormWithContext());
+    expect(find.text('¿Has olvidado tu contraseña?'), findsOneWidget);
+  });
 }

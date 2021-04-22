@@ -8,9 +8,7 @@ void main() {
       (WidgetTester tester) async {
     await tester
         .pumpWidget(MaterialApp(home: Scaffold(body: LoginFormContainer())));
-    final pageTitle = find.text('Entrar');
-
-    expect(pageTitle, findsWidgets);
+    expect(find.text('Entrar'), findsWidgets);
   });
 
   testWidgets('Login page displays login form widget',
