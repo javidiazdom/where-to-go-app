@@ -1,4 +1,10 @@
+import 'dart:developer';
+
+import '../Pages/Register.dart';
+import '../Pages/HomeScreen.dart';
 import 'package:flutter/material.dart';
+import '../../../domain/services/Credentials.service.dart';
+import '../../../domain/models/Credentials.dart';
 
 class LoginForm extends StatefulWidget {
   @override
@@ -19,6 +25,7 @@ class _LoginFormState extends State<LoginForm> {
         child: Column(
           children: [
             TextFormField(
+              style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                   labelText: "Email",
                   prefixIcon: Icon(Icons.person, color: Colors.white)),
@@ -31,6 +38,7 @@ class _LoginFormState extends State<LoginForm> {
               },
             ),
             TextFormField(
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                     labelText: "Contraseña",
                     focusColor: Colors.white,
@@ -63,7 +71,32 @@ class _LoginFormState extends State<LoginForm> {
             ),
             Center(
               child: ElevatedButton(
-                  onPressed: () => {},
+                  onPressed: () async {
+                    if (_formKey.currentState.validate()) {
+                      LoginCredentials credentials = new LoginCredentials(
+                          usernameController.text, passwordController.text);
+                      try {
+                        await CredentialsService.login(credentials);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen()));
+                      } on Exception catch (error) {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: Text('Error'),
+                                  content: Text(error.toString()),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () =>
+                                            {Navigator.of(context).pop()},
+                                        child: Text('Intentar de nuevo'))
+                                  ],
+                                ));
+                      }
+                    }
+                  },
                   child: Text("Entrar"),
                   style: ButtonStyle(
                       minimumSize: MaterialStateProperty.resolveWith<Size>(
@@ -74,7 +107,12 @@ class _LoginFormState extends State<LoginForm> {
             SizedBox(height: 15.0),
             Center(
                 child: InkWell(
-                    onTap: () => {},
+                    onTap: () => {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Register()))
+                        },
                     child: Text(
                       "¿No tienes una cuenta? Regístrate",
                       style: TextStyle(color: Color(0xff21ABAB)),

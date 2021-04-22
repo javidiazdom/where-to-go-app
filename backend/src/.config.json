@@ -1,5 +1,5 @@
 {
-  "SECRET": "",
+  "SECRET": "MzHlwtjeQfFS5c0wgdj4A2rynRvTxX1Y",
   "PORT": "4040",
   "MONGOURI": "mongodb://localhost:27017/dondeapp",
   "MONGOTESTURI": "mongodb://localhost:27017/test"

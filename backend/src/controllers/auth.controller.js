@@ -15,7 +15,7 @@ const requireAuth = async (auth, f, params) => {
   return await f(params, user);
 };
 
-const register = async (email, password) => {
+const register = async (email, password, name) => {
   const user = await User.findOne({ email: email });
   if (user) {
     throw new Error('User already exists!');
@@ -24,6 +24,7 @@ const register = async (email, password) => {
   const newUser = new User({
     email,
     password: hashedPassword,
+    name: name,
   });
   await newUser.save();
   return true;
