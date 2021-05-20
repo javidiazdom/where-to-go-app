@@ -1,26 +1,48 @@
 import 'dart:ui';
 
+import 'package:app/infraestructure/view/map/MapInteraction.dart';
+import 'package:app/infraestructure/view/widgets/PlaceDisplay.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:app/infraestructure/view/widgets/SearchBox.dart';
 
 class Panel extends StatefulWidget {
-  const Panel();
+  final MapInteraction mapInteraction;
+  const Panel(this.mapInteraction);
 
   @override
-  _PanelState createState() => _PanelState();
+  _PanelState createState() => _PanelState(mapInteraction);
 }
 
 class _PanelState extends State<Panel> {
+  final MapInteraction mapInteraction;
   Widget child = SearchBox();
+  GlobalKey<PlaceDisplayState> _placeDisplayKey = GlobalKey();
+  PanelController controller = new PanelController();
+
+  _PanelState(this.mapInteraction);
+
+  @override
+  void initState() {
+    super.initState();
+    this.mapInteraction.setPanelController(this.controller);
+    this.mapInteraction.setPlaceDisplayKey(this._placeDisplayKey);
+  }
 
   @override
   Widget build(BuildContext context) {
     return SlidingUpPanel(
       // Child must have at least 10 padding
       panel: Container(
+          height: 30,
           padding: EdgeInsets.only(top: 25, left: 15, right: 15),
-          child: this.child),
+          child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: ListView(
+                children: [this.child, PlaceDisplay(key: _placeDisplayKey)],
+                padding: EdgeInsets.all(0),
+              ))),
+      controller: this.controller,
       borderRadius: BorderRadius.vertical(
           top: Radius.circular(10.0), bottom: Radius.zero),
       boxShadow: [
