@@ -35,7 +35,7 @@ class _PanelState extends State<Panel> {
       // Child must have at least 10 padding
       panel: Container(
           height: 30,
-          padding: EdgeInsets.only(top: 25, left: 15, right: 15),
+          padding: EdgeInsets.only(top: 25, left: 0, right: 0),
           child: Scaffold(
               backgroundColor: Colors.transparent,
               body: ListView(

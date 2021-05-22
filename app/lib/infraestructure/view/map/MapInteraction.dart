@@ -24,7 +24,6 @@ class MapInteraction {
 
   void setPlace(String placeName, BuildContext context) {
     var place = new Place(placeName);
-    place.addRating(new Rating("Prueba", 4.5));
     this.placeDisplayKey.currentState.setPlace(place);
   }
 
