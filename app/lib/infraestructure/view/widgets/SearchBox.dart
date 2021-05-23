@@ -12,6 +12,7 @@ class SearchBoxState extends State<SearchBox> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10),
+      margin: EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
           color: Color(0xff666666), borderRadius: BorderRadius.circular(10)),
       child: TextField(

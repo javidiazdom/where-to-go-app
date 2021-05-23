@@ -94,7 +94,7 @@ class PlaceDisplayState extends State<PlaceDisplay> {
                   itemBuilder: (BuildContext ctxt, int index) {
                     return new Container(
                       padding: EdgeInsets.all(20),
-                      margin: EdgeInsets.only(bottom: 15, left: 15, right: 15),
+                      margin: EdgeInsets.only(bottom: 15, left: 0, right: 0),
                       child: Text(this._place.ratings[index].name),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
@@ -107,6 +107,13 @@ class PlaceDisplayState extends State<PlaceDisplay> {
                           ]),
                     );
                   }),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              child: Text(
+                "Añadir valoración del protolo COVID",
+                style: TextStyle(color: Color(0xff34C1AD)),
+              ),
             )
           ]),
         )));
