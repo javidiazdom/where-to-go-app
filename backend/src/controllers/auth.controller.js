@@ -8,7 +8,7 @@ const requireAuth = async (auth, f, params) => {
   if (!auth) throw new AuthenticationError('You must be logged in!');
   const token = auth.split('Bearer ')[1];
   if (!token) throw new AuthenticationError('You should provide a token!');
-  const user = await verify(token, SECRET, (err, decoded) => {
+  const user = await verify(token, config.SECRET, (err, decoded) => {
     if (err) throw new AuthenticationError('Invalid token!');
     return decoded;
   });

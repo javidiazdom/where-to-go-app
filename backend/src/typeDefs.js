@@ -38,6 +38,7 @@ export const typeDefs = gql`
 
   type Query {
     hello: String
+    location(latlng: LatLngInput!): Location
   }
 
   input LatLngInput {
