@@ -1,9 +1,9 @@
 import { gql } from 'apollo-server-express';
 
 export const typeDefs = gql`
-  type LatLng {
-    lattitude: Float
-    longitude: Float
+  type GeoLocation {
+    type: String
+    coordinates: [Float]
   }
 
   type Rating {
@@ -22,7 +22,7 @@ export const typeDefs = gql`
   }
 
   type Location {
-    coordinates: LatLng
+    geoLocation: GeoLocation
     name: String
     predictedAssistance: Int
     protocolRatings: [ProtocolRating]
@@ -38,12 +38,13 @@ export const typeDefs = gql`
 
   type Query {
     hello: String
-    location(latlng: LatLngInput!): Location
+    location(latlng: [Float]): Location
+    locationRatings(location: LocationInput!): LocationRatings
   }
 
-  input LatLngInput {
-    lattitude: Float
-    longitude: Float
+  input LocationInput {
+    name: String
+    coordinates: [Float]
   }
 
   type LoginOutput {
@@ -51,13 +52,22 @@ export const typeDefs = gql`
     token: String
   }
 
-  type Error {
-    code: Int
-    status: String
+  type StatusResponse {
+    status: Boolean
+    message: String
+  }
+
+  type LocationRatings {
+    mainAverage: Float
+    averagesCount: Int
+    averages: [Float]
   }
 
   type Mutation {
     register(email: String!, password: String!, name: String!): Boolean
     login(email: String!, password: String!): LoginOutput
+    addLocation(location: LocationInput!): Location
+    noteForAssistance(location: LocationInput!): Location
+    rateLocation(location: LocationInput!, ratings: [Float]!): StatusResponse
   }
 `;

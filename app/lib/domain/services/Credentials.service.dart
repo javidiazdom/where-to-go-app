@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import '../models/Credentials.dart';
 import '../../infraestructure/repositories/Credentials.repository.dart';
 

@@ -1,21 +1,40 @@
+import 'dart:developer';
+
 import './Rating.dart';
 
 class Place {
   final String name;
-  int assistants = 3;
+  final PlaceLatLng coordinates;
+  int assistants;
   List<Rating> ratings = [
-    new Rating("Calidad de la ventilación", 4.5),
-    new Rating("Distanciamiento social", 4.5),
-    new Rating("Facilidad del saneamiento de manos", 4.5),
-    new Rating("Uso de mascarillas", 4.5),
-    new Rating("Limpieza y desinfección del entorno", 4.5)
+    new Rating("Calidad de la ventilación", 0),
+    new Rating("Distanciamiento social", 0),
+    new Rating("Facilidad del saneamiento de manos", 0),
+    new Rating("Uso de mascarillas", 0),
+    new Rating("Limpieza y desinfección del entorno", 0)
   ];
-  double overalRatingAverage = 3.6;
-  int numberOfRatings = 342;
+  double overalRatingAverage = 0;
+  int numberOfRatings = 0;
 
-  Place(this.name);
-
-  void addRating(Rating rating) {
-    this.ratings.add(rating);
+  void setRatings(List<double> newRatings) {
+    log(newRatings.toString());
+    newRatings.asMap().forEach((index, rating) {
+      this.ratings[index].rate = rating;
+    });
   }
+
+  Place(this.name, this.assistants, this.coordinates);
+}
+
+class PlaceLatLng {
+  final double latitude;
+  final double longitude;
+
+  PlaceLatLng(this.latitude, this.longitude);
+}
+
+class UnregisteredPlace {
+  final String name;
+  final PlaceLatLng coordinates;
+  UnregisteredPlace(this.name, this.coordinates);
 }

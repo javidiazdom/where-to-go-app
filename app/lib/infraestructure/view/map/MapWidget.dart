@@ -39,8 +39,11 @@ class MapWidgetState extends State<MapWidget> {
           CameraPosition(bearing: 270.0, target: coordinates, zoom: 17.0)));
       //log(features[0]);
       this.mapInteraction.scrollPanelToPosition(0.5);
+      log(jsonDecode(features[0])['geometry']['coordinates'].toString());
       this.mapInteraction.setPlace(
-          jsonDecode(features[0])['properties']['name'], this.context);
+          jsonDecode(features[0])['properties']['name'],
+          coordinates,
+          this.context);
     }
   }
 

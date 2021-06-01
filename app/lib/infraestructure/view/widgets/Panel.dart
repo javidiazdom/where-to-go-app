@@ -16,11 +16,13 @@ class Panel extends StatefulWidget {
 
 class _PanelState extends State<Panel> {
   final MapInteraction mapInteraction;
-  Widget child = SearchBox();
   GlobalKey<PlaceDisplayState> _placeDisplayKey = GlobalKey();
   PanelController controller = new PanelController();
+  Widget child;
 
-  _PanelState(this.mapInteraction);
+  _PanelState(this.mapInteraction) {
+    child = SearchBox(mapInteraction);
+  }
 
   @override
   void initState() {
