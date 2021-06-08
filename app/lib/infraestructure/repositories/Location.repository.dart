@@ -80,7 +80,6 @@ class LocationRepository {
     if (decodedResponse['errors'] != null) {
       throw new HttpException(decodedResponse['errors'][0]['message']);
     } else {
-      log(decodedResponse.toString());
       return new Place(
           decodedResponse['data']['noteForAssistance']['name'],
           decodedResponse['data']['noteForAssistance']['predictedAssistance'],

@@ -1,10 +1,9 @@
-import 'dart:developer';
-
 import '../Pages/Register.dart';
 import '../Pages/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import '../../../domain/services/Credentials.service.dart';
 import '../../../domain/models/Credentials.dart';
+import 'AlertDialog.dart';
 
 class LoginForm extends StatefulWidget {
   @override
@@ -57,7 +56,7 @@ class _LoginFormState extends State<LoginForm> {
                   return null;
                 }),
             SizedBox(height: 10.0),
-            Align(
+            /*Align(
               alignment: Alignment.bottomRight,
               child: InkWell(
                   onTap: () => {},
@@ -65,7 +64,7 @@ class _LoginFormState extends State<LoginForm> {
                     "¿Has olvidado tu contraseña?",
                     style: TextStyle(color: Color(0xff21ABAB)),
                   )),
-            ),
+            ),*/
             SizedBox(
               height: 40,
             ),
@@ -82,18 +81,8 @@ class _LoginFormState extends State<LoginForm> {
                             MaterialPageRoute(
                                 builder: (context) => HomeScreen()));
                       } on Exception catch (error) {
-                        showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                                  title: Text('Error'),
-                                  content: Text(error.toString()),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () =>
-                                            {Navigator.of(context).pop()},
-                                        child: Text('Intentar de nuevo'))
-                                  ],
-                                ));
+                        await CustomAlertDialog.showCustomDialog(
+                            context, error.toString());
                       }
                     }
                   },

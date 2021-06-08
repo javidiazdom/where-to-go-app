@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:app/infraestructure/http/HttpException.dart';
 import 'package:app/infraestructure/repositories/SearchRepository.dart';
 import 'package:app/infraestructure/view/map/MapInteraction.dart';
+import 'package:app/infraestructure/view/widgets/AlertDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
@@ -37,7 +38,7 @@ class SearchBoxState extends State<SearchBox> {
             controller.setPlace(
                 searchResult.placeName, searchResult.coordinates, this.context);
           } on HttpException catch (error) {
-            log(error.message);
+            await CustomAlertDialog.showCustomDialog(context, error.message);
           }
         },
         style: TextStyle(color: Color(0xffC9C9C9)),

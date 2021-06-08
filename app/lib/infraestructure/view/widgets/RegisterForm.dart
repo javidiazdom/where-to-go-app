@@ -1,3 +1,4 @@
+import 'package:app/infraestructure/view/widgets/AlertDialog.dart';
 import 'package:flutter/material.dart';
 import '../../../domain/services/Credentials.service.dart';
 
@@ -96,18 +97,8 @@ class _RegisterFormState extends State<RegisterForm> {
                           // redirigir a otra página indicando que el login ha sido correcto?
                           Navigator.of(context).pop();
                         } on Exception catch (error) {
-                          showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                    title: Text('Error'),
-                                    content: Text(error.toString()),
-                                    actions: [
-                                      TextButton(
-                                          onPressed: () =>
-                                              {Navigator.of(context).pop()},
-                                          child: Text('Intentar de nuevo'))
-                                    ],
-                                  ));
+                          await CustomAlertDialog.showCustomDialog(
+                              context, error.toString());
                         }
                       }
                     },

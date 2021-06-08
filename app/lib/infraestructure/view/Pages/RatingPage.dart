@@ -2,12 +2,14 @@ import 'dart:developer';
 
 import 'package:app/domain/models/Place.dart';
 import 'package:app/domain/services/Ratings.service.dart';
+import 'package:app/infraestructure/http/HttpException.dart';
+import 'package:app/infraestructure/view/widgets/AlertDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:app/infraestructure/view/constants/RatingDescriptionData.dart';
 import 'package:app/infraestructure/view/widgets/RatingDescription.dart';
 
 class RatingPage extends StatelessWidget {
-  Place place;
+  Location place;
   RatingPage(this.place);
 
   List<double> ratings = [0, 0, 0, 0, 0];
@@ -59,13 +61,20 @@ class RatingPage extends StatelessWidget {
                 child: ElevatedButton(
                     onPressed: () async {
                       try {
-                        if (await RatingsService.rateLocation(
-                            place, this.ratings)) {
-                          Navigator.of(context).pop(true);
+                        if (this.place is Place) {
+                          if (await RatingsService.rateLocation(
+                              place, this.ratings)) {
+                            Navigator.of(context).pop(true);
+                          } else {
+                            if (await RatingsService.registerLocationAndRateIt(
+                                place, ratings)) {
+                              Navigator.of(context).pop(true);
+                            }
+                          }
                         }
-                        ;
-                      } catch (error) {
-                        log(error.toString());
+                      } on HttpException catch (error) {
+                        await CustomAlertDialog.showCustomDialog(
+                            context, error.message);
                       }
                     },
                     child: Text("Enviar valoraciones"),

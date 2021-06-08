@@ -21,4 +21,22 @@ class PlaceService {
       throw e;
     }
   }
+
+  static Future<Place> registerPlace(
+      UnregisteredPlace unregisteredPlace) async {
+    try {
+      return await LocationRepository.addLocation(
+          unregisteredPlace.coordinates, unregisteredPlace.name);
+    } on HttpException catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<Place> noteForAssistance(Location place) async {
+    try {
+      return await LocationRepository.noteForAssistance(place);
+    } on HttpException catch (e) {
+      throw e;
+    }
+  }
 }

@@ -1,7 +1,6 @@
 import { ProtocolRatingModel } from '../models/ProtocolRating';
 
 const rateLocation = async (params, user) => {
-  console.log(user);
   const hasRated = await ProtocolRatingModel.ProtocolRating.find({
     user: user.user.email,
     geoLocation: {
@@ -71,7 +70,6 @@ const getLocationRatingsAverages = async (location, user) => {
       $sort: { _id: 1 },
     },
   ]).exec();
-  console.log(averagesQuery);
   if (averagesQuery[0]) {
     averagesQuery.forEach((entry) => {
       averages.push(entry.average);

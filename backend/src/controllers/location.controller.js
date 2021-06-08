@@ -1,4 +1,5 @@
 import { LocationModel } from '../models/Location';
+import { AssistanceEntries } from '../models/AssistanceEntries';
 
 const getLocation = async (latlng, user) => {
   const location = await LocationModel.Location.findOne({
@@ -8,28 +9,32 @@ const getLocation = async (latlng, user) => {
           type: 'Point',
           coordinates: latlng,
         },
-        $maxDistance: 10,
+        $maxDistance: 20,
       },
     },
   });
   if (!location) {
     throw new Error('Esta localización no ha sido registrada aún.');
   }
-  return location;
+  const predictedAssistance = await AssistanceEntries.AssistanceEntryModel.count(
+    {
+      location: location,
+    }
+  );
+  return { ...location.toObject(), predictedAssistance };
 };
 
 const addLocation = async (location, user) => {
   try {
     const newLocation = new LocationModel.Location({
       name: location.name,
-      predictedAssistance: 0,
       geoLocation: {
         type: 'Point',
         coordinates: location.coordinates,
       },
     });
     await newLocation.save();
-    return newLocation;
+    return { ...newLocation.toObject(), predictedAssistance: 0 };
   } catch (mongoError) {
     console.log(mongoError);
     throw new Error('Esta localización ya existe.');
@@ -38,22 +43,28 @@ const addLocation = async (location, user) => {
 
 const noteForAssistance = async (location, user) => {
   try {
-    const location_ = await LocationModel.Location.findOneAndUpdate(
-      {
-        geoLocation: {
-          $near: {
-            $geometry: {
-              type: 'Point',
-              coordinates: location.coordinates,
-            },
-            $maxDistance: 10,
+    const location_ = await LocationModel.Location.findOne({
+      geoLocation: {
+        $near: {
+          $geometry: {
+            type: 'Point',
+            coordinates: location.coordinates,
           },
+          $maxDistance: 20,
         },
       },
-      { $inc: { predictedAssistance: 1 } },
-      { new: true }
+    });
+    const newAssistanceEntry = new AssistanceEntries.AssistanceEntryModel({
+      location: location_,
+    });
+    await newAssistanceEntry.save();
+
+    const predictedAssistance = await AssistanceEntries.AssistanceEntryModel.count(
+      {
+        location: location_,
+      }
     );
-    return location_;
+    return { ...location_.toObject(), predictedAssistance };
   } catch (mongoError) {
     throw new Error(mongoError);
   }

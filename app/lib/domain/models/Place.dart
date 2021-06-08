@@ -2,7 +2,13 @@ import 'dart:developer';
 
 import './Rating.dart';
 
-class Place {
+abstract class Location {
+  final String name;
+  final PlaceLatLng coordinates;
+  Location(this.name, this.coordinates);
+}
+
+class Place implements Location {
   final String name;
   final PlaceLatLng coordinates;
   int assistants;
@@ -33,7 +39,7 @@ class PlaceLatLng {
   PlaceLatLng(this.latitude, this.longitude);
 }
 
-class UnregisteredPlace {
+class UnregisteredPlace implements Location {
   final String name;
   final PlaceLatLng coordinates;
   UnregisteredPlace(this.name, this.coordinates);

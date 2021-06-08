@@ -1,7 +1,9 @@
+import 'package:app/infraestructure/http/HttpException.dart';
 import 'package:app/infraestructure/repositories/Location.repository.dart';
 import 'package:app/infraestructure/view/Pages/RatingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:app/domain/models/Place.dart';
+import 'package:app/infraestructure/view/widgets/AlertDialog.dart';
 import 'dart:developer';
 import 'package:app/domain/services/Place.service.dart';
 
@@ -101,10 +103,14 @@ class PlaceDisplayState extends State<PlaceDisplay> {
                     SizedBox(height: 20),
                     ElevatedButton(
                         onPressed: () async {
-                          var newPlace =
-                              await LocationRepository.noteForAssistance(
-                                  _place);
-                          this.setAssistants(newPlace.assistants);
+                          try {
+                            var newPlace =
+                                await PlaceService.noteForAssistance(_place);
+                            this.setAssistants(newPlace.assistants);
+                          } on HttpException catch (error) {
+                            CustomAlertDialog.showCustomDialog(
+                                context, error.message);
+                          }
                         },
                         child: Text("Indicar asistencia"),
                         style: ButtonStyle(
@@ -206,50 +212,44 @@ class PlaceDisplayState extends State<PlaceDisplay> {
                             )))
                   ]),
             )))
-        : Container(
-            padding: EdgeInsets.only(top: 35, left: 15, right: 15),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(
-                this.errorMessage,
-                style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                  onPressed: () async {
-                    var newPlace = await PlaceService.indicateFirstAssistance(
-                        _unregisteredPlace);
-                    this.setPlace(newPlace);
-                  },
-                  child: Text("Sé el primero en indicar asistencia"),
-                  style: ButtonStyle(
-                      minimumSize: MaterialStateProperty.resolveWith<Size>(
-                          (states) => Size(1000.0, 40.0)),
-                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                          (Set<MaterialState> states) => Color(0xff21ABAB)))),
-              SizedBox(
-                height: 10,
-              ),
-              Center(child: Text("o")),
-              SizedBox(
-                height: 10,
-              ),
-              GestureDetector(
-                  onTap: () {
-                    log("QUe paso");
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        : this._unregisteredPlace != null
+            ? Container(
+                padding: EdgeInsets.only(top: 35, left: 15, right: 15),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Añadir valoración del protolo COVID",
-                        style: TextStyle(color: Color(0xff34C1AD)),
+                        this.errorMessage,
+                        style: TextStyle(
+                            fontSize: 19.0, fontWeight: FontWeight.bold),
                       ),
-                      Image.asset('assets/StarIcon.png'),
-                    ],
-                  ))
-            ]));
+                      SizedBox(
+                        height: 20,
+                      ),
+                      ElevatedButton(
+                          onPressed: () async {
+                            var newPlace =
+                                await PlaceService.indicateFirstAssistance(
+                                    _unregisteredPlace);
+                            this.setPlace(newPlace);
+                          },
+                          child: Text("Sé el primero en indicar asistencia"),
+                          style: ButtonStyle(
+                              minimumSize:
+                                  MaterialStateProperty.resolveWith<Size>(
+                                      (states) => Size(1000.0, 40.0)),
+                              backgroundColor:
+                                  MaterialStateProperty.resolveWith<Color>(
+                                      (Set<MaterialState> states) =>
+                                          Color(0xff21ABAB)))),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Center(child: Text("o")),
+                      SizedBox(
+                        height: 10,
+                      ),
+                    ]))
+            : SizedBox.shrink();
   }
 }

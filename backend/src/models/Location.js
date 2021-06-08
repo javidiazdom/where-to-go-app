@@ -14,7 +14,6 @@ const pointSchema = new mongoose.Schema({
 
 const LocationSchema = new Schema({
   name: String,
-  predictedAssistance: Number,
   geoLocation: {
     type: pointSchema,
   },

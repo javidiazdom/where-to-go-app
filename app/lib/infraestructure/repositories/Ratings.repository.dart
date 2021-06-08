@@ -38,7 +38,7 @@ class RatingsRepository {
     }
   }
 
-  static Future<bool> rateLocation(Place place, List<double> ratings) async {
+  static Future<bool> rateLocation(Location place, List<double> ratings) async {
     var response = await HttpGraphqlService.mutate(
         rateLocationMutation,
         jsonEncode({

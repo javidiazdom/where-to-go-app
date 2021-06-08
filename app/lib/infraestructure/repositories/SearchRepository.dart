@@ -16,7 +16,7 @@ class SearchRepository {
   static Future<SearchResponse> searchPlace(
       String search, LatLng proximityBias) async {
     Uri queryString = Uri.parse(
-        'http://api.mapbox.com/geocoding/v5/mapbox.places/${search}.json?access_token=${accessToken}&autocomplete=false&types=poi&proximity=${proximityBias.latitude},${proximityBias.longitude}');
+        'http://api.mapbox.com/geocoding/v5/mapbox.places/${search}.json?access_token=${accessToken}&autocomplete=false&types=poi&bbox=-18.57010488770959%2C27.173224472781968%2C-13.266790700166126%2C29.613521629527966&proximity=${proximityBias.latitude},${proximityBias.longitude}');
     var response = await http.get(queryString);
     if (response.statusCode != 200) {
       throw new HttpException(
