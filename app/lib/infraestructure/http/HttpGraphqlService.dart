@@ -21,9 +21,13 @@ class HttpGraphqlService {
 
   static Future<http.Response> mutate(String query, String variables,
       {bool requireAuth = false}) async {
-    var bodyEncoded = json.encode({'query': query, 'variables': variables});
-    var requestHeaders = requireAuth ? await authHeaders() : headers;
-    return await http.post(uri, headers: requestHeaders, body: bodyEncoded);
+    try {
+      var bodyEncoded = json.encode({'query': query, 'variables': variables});
+      var requestHeaders = requireAuth ? await authHeaders() : headers;
+      return await http.post(uri, headers: requestHeaders, body: bodyEncoded);
+    } on SocketException catch (error) {
+      throw error;
+    }
   }
 
   static Future<http.Response> query(String query,

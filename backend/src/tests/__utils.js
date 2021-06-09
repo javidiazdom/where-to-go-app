@@ -5,6 +5,7 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import { typeDefs } from '../typeDefs';
 import { resolvers } from '../resolvers';
+import { async } from 'regenerator-runtime/runtime';
 const request = require('supertest')('http://localhost:4040');
 
 export const startServer = async () => {
@@ -36,4 +37,12 @@ export const dropCollections = async () => {
   for (let collection of collections) {
     await collection.drop();
   }
+};
+
+export const getAuth = async () => {
+  const login = await request.post('/graphql').send({
+    query:
+      'mutation { login (email: "test1@gmail.com", password: "1234") { token } }',
+  });
+  return `Bearer ${login.body.data.login.token}`;
 };

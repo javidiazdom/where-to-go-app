@@ -16,7 +16,7 @@ const getLocation = async (latlng, user) => {
   if (!location) {
     throw new Error('Esta localización no ha sido registrada aún.');
   }
-  const predictedAssistance = await AssistanceEntries.AssistanceEntryModel.count(
+  const predictedAssistance = await AssistanceEntries.AssistanceEntryModel.countDocuments(
     {
       location: location,
     }
@@ -59,7 +59,7 @@ const noteForAssistance = async (location, user) => {
     });
     await newAssistanceEntry.save();
 
-    const predictedAssistance = await AssistanceEntries.AssistanceEntryModel.count(
+    const predictedAssistance = await AssistanceEntries.AssistanceEntryModel.countDocuments(
       {
         location: location_,
       }

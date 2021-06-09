@@ -10,14 +10,19 @@ describe('Where to go API', () => {
     });
   });
 
-  after((done) => {
-    mongoose.connection.close().then(() => {
-      dropCollections();
-      server.close(done);
+  after(() => {
+    return new Promise((resolve) => {
+      dropCollections().then(() => {
+        mongoose.connection.close().then(() => {
+          server.close(resolve);
+        });
+      });
     });
   });
 
-  describe('authorization endpoints', () => {
+  describe('http tests', () => {
     require('./authorization.test');
+    require('./location.test');
+    require('./protocolRatings.test');
   });
 });
