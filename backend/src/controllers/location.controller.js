@@ -43,6 +43,22 @@ const addLocation = async (location, user) => {
 
 const noteForAssistance = async (location, user) => {
   try {
+    const hasEntries = await AssistanceEntries.AssistanceEntryModel.find({
+      "location.geoLocation": {
+          $near: {
+            $geometry: {
+              type: 'Point',
+              coordinates: location.coordinates,
+            },
+            $maxDistance: 20,
+          },
+      },
+      user: user.email,
+    });
+    console.log(hasEntries);
+    if (hasEntries[0] != null) {
+      throw new Error("El usuario ya ha indicado su asistencia para esta localización.");
+    }
     const location_ = await LocationModel.Location.findOne({
       geoLocation: {
         $near: {
@@ -55,6 +71,7 @@ const noteForAssistance = async (location, user) => {
       },
     });
     const newAssistanceEntry = new AssistanceEntries.AssistanceEntryModel({
+      user: user.email,
       location: location_,
     });
     await newAssistanceEntry.save();
@@ -65,8 +82,8 @@ const noteForAssistance = async (location, user) => {
       }
     );
     return { ...location_.toObject(), predictedAssistance };
-  } catch (mongoError) {
-    throw new Error(mongoError);
+  } catch (error) {
+    throw new Error(error);
   }
 };
 

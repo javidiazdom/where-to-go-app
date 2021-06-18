@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="31597ffe-256c-4466-98f6-90c439376788" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.nyc_output/c809db70-20e7-4377-8ffe-8577927ba26a.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.nyc_output/ddba496e-1cdc-4896-85ec-ba490107086e.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.nyc_output/processinfo/c809db70-20e7-4377-8ffe-8577927ba26a.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.nyc_output/processinfo/ddba496e-1cdc-4896-85ec-ba490107086e.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.nyc_output/processinfo/index.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.nyc_output/processinfo/index.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1u4TuQWDmOMlggiJMORCARIJOAR" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="31597ffe-256c-4466-98f6-90c439376788" name="Default Changelist" comment="" />
+      <created>1623924084923</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1623924084923</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="512" y="169" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1623927081217">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="512" y="169" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/-3840.-545.2194.1194@0.0.1920.1040" timestamp="1623927081217" />
+    <state x="461" y="165" key="SettingsEditor" timestamp="1623925640269">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="165" key="SettingsEditor/0.0.1920.1040/-3840.-545.2194.1194@0.0.1920.1040" timestamp="1623925640269" />
+  </component>
+</project>

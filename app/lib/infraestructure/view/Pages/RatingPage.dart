@@ -65,11 +65,11 @@ class RatingPage extends StatelessWidget {
                           if (await RatingsService.rateLocation(
                               place, this.ratings)) {
                             Navigator.of(context).pop(true);
-                          } else {
-                            if (await RatingsService.registerLocationAndRateIt(
-                                place, ratings)) {
-                              Navigator.of(context).pop(true);
-                            }
+                          }
+                        } else if (this.place is UnregisteredPlace) {
+                          if (await RatingsService.registerLocationAndRateIt(
+                              place, ratings)) {
+                            Navigator.of(context).pop(true);
                           }
                         }
                       } on HttpException catch (error) {

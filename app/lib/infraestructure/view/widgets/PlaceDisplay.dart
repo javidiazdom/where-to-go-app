@@ -1,10 +1,12 @@
+import 'package:app/domain/services/Ratings.service.dart';
+import 'package:app/infraestructure/DTOs/RatingsDTO.dart';
 import 'package:app/infraestructure/http/HttpException.dart';
 import 'package:app/infraestructure/repositories/Location.repository.dart';
+import 'package:app/infraestructure/repositories/Ratings.repository.dart';
 import 'package:app/infraestructure/view/Pages/RatingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:app/domain/models/Place.dart';
 import 'package:app/infraestructure/view/widgets/AlertDialog.dart';
-import 'dart:developer';
 import 'package:app/domain/services/Place.service.dart';
 
 class PlaceDisplay extends StatefulWidget {
@@ -193,12 +195,24 @@ class PlaceDisplayState extends State<PlaceDisplay> {
                         margin:
                             EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                         child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
+                            onTap: () async {
+                              await Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           RatingPage(this._place)));
+                              try {
+                                LocationRatingsDTO ratingData =
+                                    await RatingsService.getLocationRatings(
+                                        this._place);
+                                setRatingData(
+                                    ratingData.averages,
+                                    ratingData.mainAverage,
+                                    ratingData.averagesCount);
+                              } on HttpException catch (error) {
+                                CustomAlertDialog.showCustomDialog(
+                                    context, error.message);
+                              }
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -228,10 +242,15 @@ class PlaceDisplayState extends State<PlaceDisplay> {
                       ),
                       ElevatedButton(
                           onPressed: () async {
-                            var newPlace =
-                                await PlaceService.indicateFirstAssistance(
-                                    _unregisteredPlace);
-                            this.setPlace(newPlace);
+                            try {
+                              var newPlace =
+                                  await PlaceService.indicateFirstAssistance(
+                                      _unregisteredPlace);
+                              this.setPlace(newPlace);
+                            } on HttpException catch (error) {
+                              CustomAlertDialog.showCustomDialog(
+                                  context, error.message);
+                            }
                           },
                           child: Text("Sé el primero en indicar asistencia"),
                           style: ButtonStyle(
@@ -249,6 +268,43 @@ class PlaceDisplayState extends State<PlaceDisplay> {
                       SizedBox(
                         height: 10,
                       ),
+                      Container(
+                          margin:
+                              EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+                          child: GestureDetector(
+                              onTap: () async {
+                                await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => RatingPage(
+                                            this._unregisteredPlace)));
+                                try {
+                                  setPlace(await PlaceService.getLocation(
+                                      this._unregisteredPlace.coordinates));
+                                  this._unregisteredPlace = null;
+                                  LocationRatingsDTO ratingData =
+                                      await RatingsService.getLocationRatings(
+                                          this._place);
+                                  setRatingData(
+                                      ratingData.averages,
+                                      ratingData.mainAverage,
+                                      ratingData.averagesCount);
+                                } on HttpException catch (error) {
+                                  CustomAlertDialog.showCustomDialog(
+                                      context, error.message);
+                                }
+                              },
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Añadir valoración del protolo COVID",
+                                    style: TextStyle(color: Color(0xff34C1AD)),
+                                  ),
+                                  Image.asset('assets/StarIcon.png'),
+                                ],
+                              )))
                     ]))
             : SizedBox.shrink();
   }

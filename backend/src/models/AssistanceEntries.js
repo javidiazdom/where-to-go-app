@@ -3,6 +3,7 @@ import { LocationModel } from '../models/Location';
 
 const AssistanceEntrySchema = new mongoose.Schema({
   location: LocationModel.LocationSchema,
+  user: String,
   createdAt: {
     type: Date,
     expires: 86400,
