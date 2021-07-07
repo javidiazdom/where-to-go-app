@@ -1,7 +1,7 @@
 import { LocationModel } from '../models/Location';
 import { AssistanceEntries } from '../models/AssistanceEntries';
 
-const getLocation = async (latlng, user) => {
+const getLocation = async (latlng) => {
   const location = await LocationModel.Location.findOne({
     geoLocation: {
       $near: {
@@ -26,6 +26,21 @@ const getLocation = async (latlng, user) => {
 
 const addLocation = async (location, user) => {
   try {
+    const locationExists = await LocationModel.Location.findOne({
+      geoLocation: {
+        $near: {
+          $geometry: {
+            type: 'Point',
+            coordinates: location.coordinates,
+          },
+          $maxDistance: 20,
+        },
+      },
+      name: location.name,
+    });
+    if (locationExists) {
+      throw new Error('Esta localización ya existe');
+    }
     const newLocation = new LocationModel.Location({
       name: location.name,
       geoLocation: {
@@ -35,29 +50,29 @@ const addLocation = async (location, user) => {
     });
     await newLocation.save();
     return { ...newLocation.toObject(), predictedAssistance: 0 };
-  } catch (mongoError) {
-    console.log(mongoError);
-    throw new Error('Esta localización ya existe.');
+  } catch (error) {
+    throw error;
   }
 };
 
 const noteForAssistance = async (location, user) => {
   try {
     const hasEntries = await AssistanceEntries.AssistanceEntryModel.find({
-      "location.geoLocation": {
-          $near: {
-            $geometry: {
-              type: 'Point',
-              coordinates: location.coordinates,
-            },
-            $maxDistance: 20,
+      'location.geoLocation': {
+        $near: {
+          $geometry: {
+            type: 'Point',
+            coordinates: location.coordinates,
           },
+          $maxDistance: 20,
+        },
       },
       user: user.email,
     });
-    console.log(hasEntries);
     if (hasEntries[0] != null) {
-      throw new Error("El usuario ya ha indicado su asistencia para esta localización.");
+      throw new Error(
+        'El usuario ya ha indicado su asistencia para esta localización.'
+      );
     }
     const location_ = await LocationModel.Location.findOne({
       geoLocation: {

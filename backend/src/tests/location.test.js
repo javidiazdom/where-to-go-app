@@ -36,14 +36,17 @@ describe('location endpoints', () => {
         done();
       });
   });
-  it('fails when not setting authentication headers', (done) => {
+  it('fails adding a location that already exists', (done) => {
     request
       .post('/graphql')
+      .set('Authorization', auth)
       .send({ query: queries.addLocationQuery })
       .expect(200)
       .end((err, res) => {
         if (err) return done(err);
-        expect(res.body.errors[0].message).to.equal('You must be logged in!');
+        expect(res.body.errors[0].message).to.equal(
+          'Esta localización ya existe'
+        );
         done();
       });
   });
@@ -83,6 +86,21 @@ describe('location endpoints', () => {
       .end((err, res) => {
         if (err) return done(err);
         expect(res.body.data.noteForAssistance.predictedAssistance).to.equal(1);
+        done();
+      });
+  });
+
+  it('fails when indicating assistance for the same place twice', (done) => {
+    request
+      .post('/graphql')
+      .set('Authorization', auth)
+      .send({ query: queries.noteForAssistance })
+      .expect(200)
+      .end((err, res) => {
+        if (err) return done(err);
+        expect(res.body.errors[0].message).to.equal(
+          'Error: El usuario ya ha indicado su asistencia para esta localización.'
+        );
         done();
       });
   });

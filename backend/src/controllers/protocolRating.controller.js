@@ -13,7 +13,7 @@ const rateLocation = async (params, user) => {
       },
     },
   });
-  if (hasRated[0]) {
+  if (hasRated[0] != null) {
     return { status: false, message: 'Ya has valorado esta ubicación' };
   }
   try {
@@ -70,7 +70,7 @@ const getLocationRatingsAverages = async (location, user) => {
       $sort: { _id: 1 },
     },
   ]).exec();
-  if (averagesQuery[0]) {
+  if (averagesQuery[0] != null) {
     averagesQuery.forEach((entry) => {
       averages.push(entry.average);
     });

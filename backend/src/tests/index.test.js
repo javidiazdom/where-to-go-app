@@ -14,7 +14,9 @@ describe('Where to go API', () => {
     return new Promise((resolve) => {
       dropCollections().then(() => {
         mongoose.connection.close().then(() => {
-          server.close(resolve);
+          server.close(() => {
+            resolve();
+          });
         });
       });
     });

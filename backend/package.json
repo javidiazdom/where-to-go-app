@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon --exec babel-node src/index.js",
     "test": "mocha 'src/tests/index.test.js' --require @babel/register",
-    "coverage": "nyc npm run test"
+    "coverage": "nyc --reporter=html npm run test",
+    "watch-test": "mocha 'src/tests/index.test.js' --require @babel/register --watch"
   },
   "author": "Javier Diaz Dominguez",
   "license": "ISC",

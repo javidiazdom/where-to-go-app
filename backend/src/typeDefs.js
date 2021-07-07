@@ -37,7 +37,6 @@ export const typeDefs = gql`
   }
 
   type Query {
-    hello: String
     location(latlng: [Float]): Location
     locationRatings(location: LocationInput!): LocationRatings
   }

@@ -4,7 +4,6 @@ import { protocolRatingController } from './controllers/protocolRating.controlle
 
 export const resolvers = {
   Query: {
-    hello: () => 'Hello',
     location: async (_, { latlng }, { auth }) => {
       return await authController.requireAuth(
         auth,
