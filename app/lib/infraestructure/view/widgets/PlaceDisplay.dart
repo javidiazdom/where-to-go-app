@@ -1,8 +1,6 @@
 import 'package:app/domain/services/Ratings.service.dart';
 import 'package:app/infraestructure/DTOs/RatingsDTO.dart';
 import 'package:app/infraestructure/http/HttpException.dart';
-import 'package:app/infraestructure/repositories/Location.repository.dart';
-import 'package:app/infraestructure/repositories/Ratings.repository.dart';
 import 'package:app/infraestructure/view/Pages/RatingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:app/domain/models/Place.dart';
